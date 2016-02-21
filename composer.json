@@ -1,0 +1,30 @@
+{
+    "name": "zelenin/zend-expressive-config",
+    "description": "Zend Expressive config manager",
+    "keywords": [
+        "zend",
+        "expressive",
+        "confog"
+    ],
+    "homepage": "https://github.com/zelenin/zend-expressive-config",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksandr Zelenin",
+            "email": "aleksandr@zelenin.me",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/zelenin/zend-expressive-config/issues",
+        "source": "https://github.com/zelenin/zend-expressive-config"
+    },
+    "require": {
+        "php": ">=5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zelenin\\Zend\\Expressive\\Config\\": ""
+        }
+    }
+}
