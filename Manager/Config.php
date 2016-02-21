@@ -22,9 +22,11 @@ final class Config implements Provider
      * @param Provider[] $providers
      * @param CacheProvider|null $cacheProvider
      */
-    public function __construct($providers, CacheProvider $cacheProvider = null)
+    public function __construct(array $providers, CacheProvider $cacheProvider = null)
     {
-        $this->providers = $providers;
+        foreach ($providers as $provider) {
+            $this->addProvider($provider);
+        }
         $this->cacheProvider = $cacheProvider;
     }
 
@@ -40,6 +42,14 @@ final class Config implements Provider
             return $this->cacheProvider->getConfig();
         }
         return $this->getConfigFromProviders();
+    }
+
+    /**
+     * @param Provider $provider
+     */
+    public function addProvider(Provider $provider)
+    {
+        $this->providers[] = $provider;
     }
 
     /**
