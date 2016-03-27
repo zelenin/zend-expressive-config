@@ -4,7 +4,7 @@
     "keywords": [
         "zend",
         "expressive",
-        "confog"
+        "config"
     ],
     "homepage": "https://github.com/zelenin/zend-expressive-config",
     "license": "MIT",
