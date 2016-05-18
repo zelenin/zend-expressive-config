@@ -2,7 +2,7 @@
 
 namespace Zelenin\Zend\Expressive\Config\Util;
 
-class ArrayUtil
+final class ArrayUtil
 {
     /**
      * @param array $a

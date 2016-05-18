@@ -2,7 +2,6 @@
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
-use Zelenin\Zend\Expressive\Config\Provider\Contract\Provider;
 use Zelenin\Zend\Expressive\Config\Util\ArrayUtil;
 
 final class PhpProvider implements Provider

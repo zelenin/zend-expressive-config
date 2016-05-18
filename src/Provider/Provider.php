@@ -1,6 +1,6 @@
 <?php
 
-namespace Zelenin\Zend\Expressive\Config\Provider\Contract;
+namespace Zelenin\Zend\Expressive\Config\Provider;
 
 interface Provider
 {

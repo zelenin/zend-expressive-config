@@ -2,8 +2,6 @@
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
-use Zelenin\Zend\Expressive\Config\Provider\Contract\Provider;
-
 final class ArrayProvider implements Provider
 {
     /**
