@@ -1,6 +1,6 @@
 <?php
 
-namespace Zend\Expressive\Config\Test;
+namespace Zelenin\Zend\Expressive\Config\Test;
 
 use PHPUnit_Framework_TestCase;
 use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;

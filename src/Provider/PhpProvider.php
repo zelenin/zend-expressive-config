@@ -26,7 +26,7 @@ final class PhpProvider implements Provider
     {
         $config = [];
         foreach ($this->glob($this->pattern) as $file) {
-            $config = ArrayUtil::merge($config, require_once $file);
+            $config = ArrayUtil::merge($config, include $file);
         }
         return $config;
     }

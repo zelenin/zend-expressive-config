@@ -1,6 +1,6 @@
 <?php
 
-namespace Zend\Expressive\Config\Test\Resources;
+namespace Zelenin\Zend\Expressive\Config\Test\Resources;
 
 final class ModuleConfigProvider extends \Zelenin\Zend\Expressive\Config\Provider\ModuleConfigProvider
 {
