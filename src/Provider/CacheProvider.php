@@ -25,12 +25,12 @@ final class CacheProvider implements Provider
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getConfig()
     {
         if (!$this->isExist()) {
-            file_put_contents($this->path, '<?php return ' . var_export($this->providers->getConfig(), true) . ';');
+            file_put_contents($this->path, '<?php return ' . var_export($this->providers->getConfig(), true) . ';' . "\n");
         }
         return require_once $this->path;
     }

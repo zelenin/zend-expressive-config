@@ -2,7 +2,7 @@
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
-use ArrayObject;
+use SplObjectStorage;
 use Zelenin\Zend\Expressive\Config\Util\ArrayUtil;
 
 final class CollectionProvider implements Provider
@@ -17,7 +17,7 @@ final class CollectionProvider implements Provider
      */
     public function __construct(array $providers)
     {
-        $this->providers = new ArrayObject();
+        $this->providers = new SplObjectStorage();
 
         foreach ($providers as $provider) {
             $this->addProvider($provider);
@@ -25,7 +25,7 @@ final class CollectionProvider implements Provider
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getConfig()
     {
@@ -41,6 +41,6 @@ final class CollectionProvider implements Provider
      */
     public function addProvider(Provider $provider)
     {
-        $this->providers->append($provider);
+        $this->providers->attach($provider);
     }
 }

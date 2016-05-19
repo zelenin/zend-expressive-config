@@ -5,7 +5,7 @@ namespace Zelenin\Zend\Expressive\Config\Provider;
 abstract class ModuleConfigProvider implements Provider
 {
     /**
-     * @return array
+     * @inheritdoc
      */
     abstract public function getConfig();
 }

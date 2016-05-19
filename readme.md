@@ -22,6 +22,16 @@ to the require section of your ```composer.json```
 
 ## Usage
 
+### Config providers
+
+- PHP
+- Yaml
+- Arrays
+- Collections
+- Module config objects
+
+### Example
+
 ```php
 <?php
 
@@ -30,11 +40,13 @@ use Zelenin\Zend\Expressive\Config\ConfigManager;
 use Zelenin\Zend\Expressive\Config\Provider\ArrayProvider;
 use Zelenin\Zend\Expressive\Config\Provider\CacheProvider;
 use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;
+use Zelenin\Zend\Expressive\Config\Provider\YamlProvider;
 
 $productionMode = true; // environment variable
 
 $providers =  [
     new PhpProvider(__DIR__ . '/../config/autoload/{{,*.}global,{,*.}local}.php'),
+    new YamlProvider(__DIR__ . '/../config/autoload/{{,*.}global,{,*.}local}.yml'),
     new ArrayProvider(['foo' => 'bar']),
     new FooModuleConfig(),
 ];
@@ -53,6 +65,9 @@ Module config example:
 namespace Zelenin\FooModule\Config;
 
 use Zelenin\Zend\Expressive\Config\Provider\ModuleConfigProvider;
+use Zelenin\Zend\Expressive\Config\Provider\CollectionProvider;
+use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;
+use Zelenin\Zend\Expressive\Config\Provider\YamlProvider;
 
 final class FooModuleConfig extends ModuleConfigProvider
 {
@@ -71,7 +86,10 @@ final class FooModuleConfig extends ModuleConfigProvider
 
         // or
 
-        return (new PhpProvider(__DIR__ . '/config/*.php'))->getConfig();
+        return (new CollectionProvider([
+            new PhpProvider(__DIR__ . '/../Resources/config/{{,*.}global,{,*.}local}.php')),
+            new YamlProvider(__DIR__ . '/../Resources/config/{{,*.}global,{,*.}local}.yml'))
+        ]))->getConfig();
     }
 }
 ```

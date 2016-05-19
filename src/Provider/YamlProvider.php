@@ -2,9 +2,10 @@
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
+use Symfony\Component\Yaml\Parser;
 use Zelenin\Zend\Expressive\Config\Util\ArrayUtil;
 
-final class PhpProvider implements Provider
+final class YamlProvider implements Provider
 {
     /**
      * @var string
@@ -12,11 +13,17 @@ final class PhpProvider implements Provider
     private $pattern;
 
     /**
+     * @var Parser
+     */
+    private $parser;
+
+    /**
      * @param string $pattern
      */
     public function __construct($pattern)
     {
         $this->pattern = $pattern;
+        $this->parser = new Parser();
     }
 
     /**
@@ -26,7 +33,7 @@ final class PhpProvider implements Provider
     {
         $config = [];
         foreach ($this->glob($this->pattern) as $file) {
-            $config = ArrayUtil::merge($config, include $file);
+            $config = ArrayUtil::merge($config, $this->parser->parse(file_get_contents($file)));
         }
         return $config;
     }

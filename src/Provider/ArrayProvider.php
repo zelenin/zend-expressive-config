@@ -18,7 +18,7 @@ final class ArrayProvider implements Provider
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getConfig()
     {
