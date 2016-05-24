@@ -9,13 +9,13 @@ The preferred way to install this extension is through [Composer](http://getcomp
 Either run
 
 ```
-php composer.phar require zelenin/zend-expressive-config "~1.1.0"
+php composer.phar require zelenin/zend-expressive-config "~1.2.0"
 ```
 
 or add
 
 ```
-"zelenin/zend-expressive-config": "~1.1.0"
+"zelenin/zend-expressive-config": "~1.2.0"
 ```
 
 to the require section of your ```composer.json```
@@ -45,8 +45,10 @@ use Zelenin\Zend\Expressive\Config\Provider\YamlProvider;
 $productionMode = true; // environment variable
 
 $providers =  [
-    new PhpProvider(__DIR__ . '/../config/autoload/{{,*.}global,{,*.}local}.php'),
-    new YamlProvider(__DIR__ . '/../config/autoload/{{,*.}global,{,*.}local}.yml'),
+    new PhpProvider(__DIR__ . '/../config/autoload/*.global.php'),
+    new PhpProvider(__DIR__ . '/../config/autoload/*.local.php'),
+    new YamlProvider(__DIR__ . '/../config/autoload/*.global.yml'),
+    new YamlProvider(__DIR__ . '/../config/autoload/*.local.yml'),
     new ArrayProvider(['foo' => 'bar']),
     new FooModuleConfig(),
 ];
@@ -87,8 +89,10 @@ final class FooModuleConfig extends ModuleConfigProvider
         // or
 
         return (new CollectionProvider([
-            new PhpProvider(__DIR__ . '/../Resources/config/{{,*.}global,{,*.}local}.php')),
-            new YamlProvider(__DIR__ . '/../Resources/config/{{,*.}global,{,*.}local}.yml'))
+            new PhpProvider(__DIR__ . '/../Resources/config/*.global.php')),
+            new PhpProvider(__DIR__ . '/../Resources/config/*.local.php')),
+            new YamlProvider(__DIR__ . '/../Resources/config/*.global.yml'))
+            new YamlProvider(__DIR__ . '/../Resources/config/*.local.yml'))
         ]))->getConfig();
     }
 }

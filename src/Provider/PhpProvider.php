@@ -2,6 +2,9 @@
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
+use FilesystemIterator;
+use GlobIterator;
+use SplFileInfo;
 use Zelenin\Zend\Expressive\Config\Util\ArrayUtil;
 
 final class PhpProvider implements Provider
@@ -25,19 +28,19 @@ final class PhpProvider implements Provider
     public function getConfig()
     {
         $config = [];
-        foreach ($this->glob($this->pattern) as $file) {
-            $config = ArrayUtil::merge($config, include $file);
+        foreach ($this->iterate($this->pattern) as $file) {
+            $config = ArrayUtil::merge($config, include $file->getRealPath());
         }
         return $config;
     }
 
     /**
-     * @param string $pattern
+     * @param $pattern
      *
-     * @return array
+     * @return GlobIterator|SplFileInfo[]
      */
-    private function glob($pattern)
+    private function iterate($pattern)
     {
-        return glob($pattern, GLOB_BRACE);
+        return new GlobIterator($this->pattern, FilesystemIterator::SKIP_DOTS);
     }
 }
