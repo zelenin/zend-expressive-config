@@ -98,6 +98,96 @@ final class FooModuleConfig extends ModuleConfigProvider
 }
 ```
 
+### Variables in YAML
+
+You can resolve a variables like in the example below.
+
+Config:
+```yml
+dependencies:
+    factories:
+        Zend\Stratigility\FinalHandler: 'Zend\Expressive\Container\TemplatedErrorHandlerFactory'
+        Zend\Expressive\Template\TemplateRendererInterface: 'Zend\Expressive\Twig\TwigRendererFactory'
+
+twig:
+    cache_dir: '%rootDir%/data/cache/twig'
+    assets_url: '/'
+    assets_version: 1
+    globals: []
+    extensions: []
+
+templates:
+    extension: 'html.twig'
+    paths:
+        application:
+            - '%moduleRootDir%/Resources/views'
+```
+Provider:
+```php
+<?php
+declare(strict_types = 1);
+
+namespace Zelenin\Application\Config;
+
+use ArrayObject;
+use Zelenin\Zend\Expressive\Config\Provider\CollectionProvider;
+use Zelenin\Zend\Expressive\Config\Provider\ModuleConfigProvider;
+use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;
+use Zelenin\Zend\Expressive\Config\Provider\YamlProvider;
+
+final class Provider extends ModuleConfigProvider
+{
+    /**
+     * @return array
+     */
+    public function getConfig() : array
+    {
+        return $this->resolveVariables(
+            (new CollectionProvider([
+                new PhpProvider(__DIR__ . '/../Resources/config/*.global.php'),
+                new PhpProvider(__DIR__ . '/../Resources/config/*.local.php'),
+                new YamlProvider(__DIR__ . '/../Resources/config/*.global.yml'),
+                new YamlProvider(__DIR__ . '/../Resources/config/*.local.yml'),
+            ]))->getConfig()
+        );
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return array
+     */
+    private function resolveVariables(array $config) :array
+    {
+        $variableRegistry = $this->getVariablesRegistry();
+
+        array_walk_recursive($config, function (&$value, $key) use ($variableRegistry) {
+            if (is_string($value)) {
+                if (preg_match('/%(.+)%/', $value, $matches)) {
+                    $variable = $matches[1];
+                    if (isset($variableRegistry[$variable])) {
+                        $value = preg_replace('/%(.+)%/', $variableRegistry[$variable], $value);
+                    }
+                }
+            }
+        });
+
+        return $config;
+    }
+
+    /**
+     * @return ArrayObject|array
+     */
+    private function getVariablesRegistry() :ArrayObject
+    {
+        return new ArrayObject([
+            'rootDir' => realpath(__DIR__ . '/../../..'),
+            'moduleRootDir' => realpath(__DIR__ . '/..'),
+        ]);
+    }
+}
+```
+
 ## Author
 
 [Aleksandr Zelenin](https://github.com/zelenin/), e-mail: [aleksandr@zelenin.me](mailto:aleksandr@zelenin.me)
