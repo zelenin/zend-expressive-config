@@ -132,7 +132,6 @@ namespace Zelenin\Application\Config;
 use ArrayObject;
 use Zelenin\Zend\Expressive\Config\Provider\CollectionProvider;
 use Zelenin\Zend\Expressive\Config\Provider\ModuleConfigProvider;
-use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;
 use Zelenin\Zend\Expressive\Config\Provider\YamlProvider;
 
 final class Provider extends ModuleConfigProvider
@@ -144,8 +143,6 @@ final class Provider extends ModuleConfigProvider
     {
         return $this->resolveVariables(
             (new CollectionProvider([
-                new PhpProvider(__DIR__ . '/../Resources/config/*.global.php'),
-                new PhpProvider(__DIR__ . '/../Resources/config/*.local.php'),
                 new YamlProvider(__DIR__ . '/../Resources/config/*.global.yml'),
                 new YamlProvider(__DIR__ . '/../Resources/config/*.local.yml'),
             ]))->getConfig()
