@@ -140,7 +140,7 @@ final class Provider extends ModuleConfigProvider
     /**
      * @return array
      */
-    public function getConfig() : array
+    public function getConfig(): array
     {
         return $this->resolveVariables(
             (new CollectionProvider([
@@ -157,7 +157,7 @@ final class Provider extends ModuleConfigProvider
      *
      * @return array
      */
-    private function resolveVariables(array $config) :array
+    private function resolveVariables(array $config): array
     {
         $variableRegistry = $this->getVariablesRegistry();
 
@@ -178,7 +178,7 @@ final class Provider extends ModuleConfigProvider
     /**
      * @return ArrayObject|array
      */
-    private function getVariablesRegistry() :ArrayObject
+    private function getVariablesRegistry(): ArrayObject
     {
         return new ArrayObject([
             'rootDir' => realpath(__DIR__ . '/../../..'),
