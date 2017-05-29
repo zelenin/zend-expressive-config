@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
 use FilesystemIterator;
 use GlobIterator;
-use SplFileInfo;
 use Zelenin\Zend\Expressive\Config\Util\ArrayUtil;
 
 final class PhpProvider implements Provider
@@ -17,7 +17,7 @@ final class PhpProvider implements Provider
     /**
      * @param string $pattern
      */
-    public function __construct($pattern)
+    public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
     }
@@ -25,22 +25,13 @@ final class PhpProvider implements Provider
     /**
      * @inheritdoc
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         $config = [];
-        foreach ($this->iterate($this->pattern) as $file) {
+        foreach (new GlobIterator($this->pattern, FilesystemIterator::SKIP_DOTS) as $file) {
             $config = ArrayUtil::merge($config, include $file->getRealPath());
         }
-        return $config;
-    }
 
-    /**
-     * @param $pattern
-     *
-     * @return GlobIterator|SplFileInfo[]
-     */
-    private function iterate($pattern)
-    {
-        return new GlobIterator($this->pattern, FilesystemIterator::SKIP_DOTS);
+        return $config;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
@@ -20,7 +21,7 @@ final class ArrayProvider implements Provider
     /**
      * @inheritdoc
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->array;
     }

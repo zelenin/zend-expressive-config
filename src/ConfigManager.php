@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config;
 
@@ -10,29 +11,21 @@ final class ConfigManager implements Provider
     /**
      * @var CollectionProvider
      */
-    private $providers;
+    private $provider;
 
     /**
-     * @param array $providers
+     * @param Provider[] $providers
      */
     public function __construct(array $providers)
     {
-        $this->providers = new CollectionProvider($providers);
+        $this->provider = new CollectionProvider($providers);
     }
 
     /**
      * @return array
      */
-    public function getConfig()
+    public function getConfig(): array
     {
-        return $this->providers->getConfig();
-    }
-
-    /**
-     * @param Provider $provider
-     */
-    public function addProvider(Provider $provider)
-    {
-        $this->providers->addProvider($provider);
+        return $this->provider->getConfig();
     }
 }

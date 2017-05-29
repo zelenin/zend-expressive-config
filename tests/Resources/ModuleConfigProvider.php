@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Test\Resources;
 
@@ -7,10 +8,10 @@ final class ModuleConfigProvider extends \Zelenin\Zend\Expressive\Config\Provide
     /**
      * @inheritdoc
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return [
-            'bar' => 'foo'
+            'bar' => 'foo',
         ];
     }
 }

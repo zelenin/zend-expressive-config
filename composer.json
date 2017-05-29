@@ -20,11 +20,11 @@
         "source": "https://github.com/zelenin/zend-expressive-config"
     },
     "require": {
-        "php": ">=5.4",
+        "php": ">=7.0",
         "symfony/yaml": "~2.8 || ~3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.0"
+        "phpunit/phpunit": "~6.0"
     },
     "autoload": {
         "psr-4": {
@@ -33,7 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Zelenin\\Zend\\Expressive\\Config\\Test\\": "test"
+            "Zelenin\\Zend\\Expressive\\Config\\Test\\": "tests"
         }
     }
 }

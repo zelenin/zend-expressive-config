@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zelenin\Zend\Expressive\Config\Provider\ArrayProvider;
 
-final class ArrayProviderTest extends PHPUnit_Framework_TestCase
+final class ArrayProviderTest extends TestCase
 {
     public function testConfig()
     {
         $config = [
-            'foo' => 'bar'
+            'foo' => 'bar',
         ];
 
         $provider = new ArrayProvider($config);

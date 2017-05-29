@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
 use FilesystemIterator;
 use GlobIterator;
-use SplFileInfo;
 use Symfony\Component\Yaml\Parser;
 use Zelenin\Zend\Expressive\Config\Util\ArrayUtil;
 
@@ -23,7 +23,7 @@ final class YamlProvider implements Provider
     /**
      * @param string $pattern
      */
-    public function __construct($pattern)
+    public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
         $this->parser = new Parser();
@@ -32,22 +32,13 @@ final class YamlProvider implements Provider
     /**
      * @inheritdoc
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         $config = [];
-        foreach ($this->iterate($this->pattern) as $file) {
+        foreach (new GlobIterator($this->pattern, FilesystemIterator::SKIP_DOTS) as $file) {
             $config = ArrayUtil::merge($config, $this->parser->parse(file_get_contents($file->getRealPath())));
         }
-        return $config;
-    }
 
-    /**
-     * @param $pattern
-     *
-     * @return GlobIterator|SplFileInfo[]
-     */
-    private function iterate($pattern)
-    {
-        return new GlobIterator($this->pattern, FilesystemIterator::SKIP_DOTS);
+        return $config;
     }
 }

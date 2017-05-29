@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Zelenin\Zend\Expressive\Config\Test\Resources\ModuleConfigProvider;
 
-final class ModuleConfigProviderTest extends PHPUnit_Framework_TestCase
+final class ModuleConfigProviderTest extends TestCase
 {
     public function testConfig()
     {

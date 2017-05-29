@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Util;
 
@@ -10,7 +11,7 @@ final class ArrayUtil
      *
      * @return array
      */
-    public static function merge(array $a, array $b)
+    public static function merge(array $a, array $b): array
     {
         foreach ($b as $key => $value) {
             if (array_key_exists($key, $a)) {
