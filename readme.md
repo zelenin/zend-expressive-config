@@ -41,6 +41,7 @@ use Zelenin\Zend\Expressive\Config\Provider\ArrayProvider;
 use Zelenin\Zend\Expressive\Config\Provider\CacheProvider;
 use Zelenin\Zend\Expressive\Config\Provider\PhpProvider;
 use Zelenin\Zend\Expressive\Config\Provider\YamlProvider;
+use Zelenin\Zend\Expressive\Config\Provider\AnnotationProvider;
 
 $productionMode = true; // environment variable
 
@@ -49,6 +50,7 @@ $providers =  [
     new PhpProvider(__DIR__ . '/../config/autoload/*.local.php'),
     new YamlProvider(__DIR__ . '/../config/autoload/*.global.yml'),
     new YamlProvider(__DIR__ . '/../config/autoload/*.local.yml'),
+    new AnnotationProvider(__DIR__ . '/../src'),
     new ArrayProvider(['foo' => 'bar']),
     new FooModuleConfig(),
 ];
@@ -184,6 +186,18 @@ final class Provider extends ModuleConfigProvider
     }
 }
 ```
+
+### Annotations
+
+Supported annotations:
+
+- @Factory(id=Service::class)
+- @Invokable(id=InvokableService::class)
+
+Usage:
+
+See examples in [Tests](https://github.com/zelenin/zend-expressive-config/tree/master/tests/Resources)
+
 
 ## Author
 
