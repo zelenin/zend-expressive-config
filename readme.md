@@ -1,5 +1,7 @@
 # Zend Expressive config manager
 
+[![Coverage Status](https://coveralls.io/repos/github/zelenin/zend-expressive-config/badge.svg?branch=master)](https://coveralls.io/github/zelenin/zend-expressive-config?branch=master)
+
 ## Installation
 
 ### Composer
