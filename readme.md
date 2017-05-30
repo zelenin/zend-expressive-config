@@ -1,7 +1,4 @@
-# Zend Expressive config manager
-
-[![Build Status](https://travis-ci.org/zelenin/zend-expressive-config.svg?branch=master)](https://travis-ci.org/zelenin/zend-expressive-config)
-[![Coverage Status](https://coveralls.io/repos/github/zelenin/zend-expressive-config/badge.svg?branch=master)](https://coveralls.io/github/zelenin/zend-expressive-config?branch=master)
+# Zend Expressive config manager [![Build Status](https://travis-ci.org/zelenin/zend-expressive-config.svg?branch=master)](https://travis-ci.org/zelenin/zend-expressive-config) [![Coverage Status](https://coveralls.io/repos/github/zelenin/zend-expressive-config/badge.svg?branch=master)](https://coveralls.io/github/zelenin/zend-expressive-config?branch=master)
 
 ## Installation
 
