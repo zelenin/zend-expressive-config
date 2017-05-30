@@ -127,7 +127,7 @@ templates:
 Provider:
 ```php
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Zelenin\Application\Config;
 
@@ -175,14 +175,14 @@ final class Provider extends ModuleConfigProvider
     }
 
     /**
-     * @return ArrayObject|array
+     * @return array
      */
-    private function getVariablesRegistry(): ArrayObject
+    private function getVariablesRegistry(): array
     {
-        return new ArrayObject([
+        return [
             'rootDir' => realpath(__DIR__ . '/../../..'),
             'moduleRootDir' => realpath(__DIR__ . '/..'),
-        ]);
+        ];
     }
 }
 ```
@@ -191,12 +191,10 @@ final class Provider extends ModuleConfigProvider
 
 Supported annotations:
 
-- @Factory(id=Service::class)
-- @Invokable(id=InvokableService::class)
+- ```@Factory(id=Service::class)```
+- ```@Invokable(id=InvokableService::class)```
 
-Usage:
-
-See examples in [Tests](https://github.com/zelenin/zend-expressive-config/tree/master/tests/Resources)
+Usage: see examples in [Tests](https://github.com/zelenin/zend-expressive-config/tree/master/tests/Resources)
 
 
 ## Author
