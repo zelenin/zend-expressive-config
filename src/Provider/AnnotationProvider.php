@@ -14,6 +14,7 @@ use ReflectionClass;
 use RegexIterator;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Factory;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Invokable;
+use Zelenin\Zend\Expressive\Config\Provider\Annotation\Route;
 use Zelenin\Zend\Expressive\Config\Util\ClassNameExtractor;
 
 final class AnnotationProvider implements Provider
@@ -41,6 +42,7 @@ final class AnnotationProvider implements Provider
 
         AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Factory.php');
         AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Invokable.php');
+        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Route.php');
     }
 
     /**
@@ -71,6 +73,26 @@ final class AnnotationProvider implements Provider
                     /** @var Factory $annotation */
                     $annotation = $classAnnotations[Invokable::class];
                     $config['dependencies']['invokables'][$annotation->id] = $className;
+                }
+
+                if (isset($classAnnotations[Route::class])) {
+                    /** @var Route $annotation */
+                    $annotation = $classAnnotations[Route::class];
+                    $route = [
+                        'path' => $annotation->path,
+                        'middleware' => $className,
+                        'name' => !empty($annotation->name) ? $annotation->name : null,
+                    ];
+
+                    if (!empty($annotation->methods) && is_array($annotation->methods)) {
+                        $route['allowed_methods'] = $annotation->methods;
+                    }
+
+                    if (!empty($annotation->options) && is_array($annotation->options)) {
+                        $route['options'] = $annotation->options;
+                    }
+
+                    $config['routes'][] = $route;
                 }
             }
         }

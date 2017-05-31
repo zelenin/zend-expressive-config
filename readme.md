@@ -193,6 +193,7 @@ Supported annotations:
 
 - ```@Factory(id=Service::class)```
 - ```@Invokable(id=InvokableService::class)```
+- ```@Route(path="/path", methods={"GET", "POST"}, name="route-name")```
 
 Usage: see examples in [Tests](https://github.com/zelenin/zend-expressive-config/tree/master/tests/Resources)
 
