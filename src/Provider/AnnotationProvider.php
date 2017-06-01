@@ -41,13 +41,7 @@ final class AnnotationProvider implements Provider
         $this->path = $path;
         $this->classNameExtractor = new ClassNameExtractor();
 
-        if (defined("TRAVIS")) {
-            $loader = require __DIR__ . '/../../vendor/autoload.php';
-        } else {
-            $loader = require __DIR__ . '/../../../../../vendor/autoload.php';
-        }
-
-        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+        $this->registerLoader();
     }
 
     /**
@@ -122,5 +116,16 @@ final class AnnotationProvider implements Provider
         }
 
         return $config;
+    }
+
+    private function registerLoader()
+    {
+        if (file_exists(__DIR__ . '/../../../../../vendor/autoload.php')) {
+            $loader = require __DIR__ . '/../../../../../vendor/autoload.php';
+        } else {
+            $loader = require __DIR__ . '/../../vendor/autoload.php';
+        }
+
+        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
     }
 }
