@@ -193,9 +193,10 @@ Supported annotations:
 
 - ```@Factory(id=Service::class)```
 - ```@Invokable(id=InvokableService::class)```
+- ```@Middleware(path="/path")```
 - ```@Route(path="/path", methods={"GET", "POST"}, name="route-name")```
 
-NB: ```@Route``` works only with [```programmatic_pipeline=false```](https://docs.zendframework.com/zend-expressive/features/container/factories/)
+NB: ```@Middleware``` and ```@Route``` works only with [```programmatic_pipeline=false```](https://docs.zendframework.com/zend-expressive/features/container/factories/)
 
 Usage: see examples in [Tests](https://github.com/zelenin/zend-expressive-config/tree/master/tests/Resources)
 

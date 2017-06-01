@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Zelenin\Zend\Expressive\Config\Provider\AnnotationProvider;
 use Zelenin\Zend\Expressive\Config\Test\Resources\FactoryWithAnnotation;
 use Zelenin\Zend\Expressive\Config\Test\Resources\InvokableWithAnnotation;
+use Zelenin\Zend\Expressive\Config\Test\Resources\MiddlewareWithAnnotation;
 use Zelenin\Zend\Expressive\Config\Test\Resources\ModuleConfigProvider;
 use Zelenin\Zend\Expressive\Config\Test\Resources\RouteWithAnnotation;
 use Zelenin\Zend\Expressive\Config\Util\ClassNameExtractor;
@@ -24,6 +25,12 @@ final class AnnotationProviderTest extends TestCase
                 ],
                 'invokables' => [
                     InvokableWithAnnotation::class => InvokableWithAnnotation::class,
+                ],
+            ],
+            'middleware_pipeline' => [
+                [
+                    'path' => '/path',
+                    'middleware' => MiddlewareWithAnnotation::class,
                 ],
             ],
             'routes' => [

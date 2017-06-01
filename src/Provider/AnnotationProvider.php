@@ -14,6 +14,7 @@ use ReflectionClass;
 use RegexIterator;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Factory;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Invokable;
+use Zelenin\Zend\Expressive\Config\Provider\Annotation\Middleware;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Route;
 use Zelenin\Zend\Expressive\Config\Util\ClassNameExtractor;
 
@@ -42,6 +43,7 @@ final class AnnotationProvider implements Provider
 
         AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Factory.php');
         AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Invokable.php');
+        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Middleware.php');
         AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Route.php');
     }
 
@@ -73,6 +75,25 @@ final class AnnotationProvider implements Provider
                     /** @var Factory $annotation */
                     $annotation = $classAnnotations[Invokable::class];
                     $config['dependencies']['invokables'][$annotation->id] = $className;
+                }
+
+                if (isset($classAnnotations[Middleware::class])) {
+                    /** @var Middleware $annotation */
+                    $annotation = $classAnnotations[Middleware::class];
+                    $middleware = [
+                        'path' => $annotation->path,
+                        'middleware' => $className,
+                    ];
+
+                    if (!empty($annotation->priority) && is_int($annotation->priority)) {
+                        $middleware['priority'] = $annotation->priority;
+                    }
+
+                    if (!empty($annotation->name)) {
+                        $config['middleware_pipeline'][$annotation->name] = $middleware;
+                    } else {
+                        $config['middleware_pipeline'][] = $middleware;
+                    }
                 }
 
                 if (isset($classAnnotations[Route::class])) {
