@@ -41,7 +41,10 @@ final class AnnotationProvider implements Provider
         $this->path = $path;
         $this->classNameExtractor = new ClassNameExtractor();
 
-        $loader = require __DIR__ . '/../../../../../vendor/autoload.php';
+        $loader = include __DIR__ . '/../../../../../vendor/autoload.php';
+        if ($loader === false) {
+            $loader = include __DIR__ . '/../../vendor/autoload.php';
+        }
         AnnotationRegistry::registerLoader([$loader, 'loadClass']);
     }
 
