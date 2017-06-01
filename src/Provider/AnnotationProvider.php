@@ -41,10 +41,12 @@ final class AnnotationProvider implements Provider
         $this->path = $path;
         $this->classNameExtractor = new ClassNameExtractor();
 
-        $loader = include __DIR__ . '/../../../../../vendor/autoload.php';
-        if ($loader === false) {
-            $loader = include __DIR__ . '/../../vendor/autoload.php';
+        if (defined("TRAVIS")) {
+            $loader = require __DIR__ . '/../../vendor/autoload.php';
+        } else {
+            $loader = require __DIR__ . '/../../../../../vendor/autoload.php';
         }
+
         AnnotationRegistry::registerLoader([$loader, 'loadClass']);
     }
 
