@@ -41,10 +41,8 @@ final class AnnotationProvider implements Provider
         $this->path = $path;
         $this->classNameExtractor = new ClassNameExtractor();
 
-        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Factory.php');
-        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Invokable.php');
-        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Middleware.php');
-        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/Route.php');
+        $loader = require __DIR__ . '/../../../../../vendor/autoload.php';
+        AnnotationRegistry::registerLoader([$loader, 'loadClass']);
     }
 
     /**
