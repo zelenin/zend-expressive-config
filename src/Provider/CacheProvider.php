@@ -34,7 +34,7 @@ final class CacheProvider implements Provider
             file_put_contents($this->path, '<?php return ' . var_export($this->providers->getConfig(), true) . ';' . "\n");
         }
 
-        return require_once $this->path;
+        return require $this->path;
     }
 
     /**
