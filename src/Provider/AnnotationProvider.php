@@ -3,19 +3,23 @@ declare(strict_types=1);
 
 namespace Zelenin\Zend\Expressive\Config\Provider;
 
+use Composer\Autoload\ClassLoader;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
 use Doctrine\Common\Annotations\Reader;
+use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RecursiveRegexIterator;
 use ReflectionClass;
 use RegexIterator;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Factory;
+use Zelenin\Zend\Expressive\Config\Provider\Annotation\Inject;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Invokable;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Middleware;
 use Zelenin\Zend\Expressive\Config\Provider\Annotation\Route;
+use Zelenin\Zend\Expressive\Config\Provider\FactoryGenerator\FactoryGenerator;
 use Zelenin\Zend\Expressive\Config\Util\ClassNameExtractor;
 
 final class AnnotationProvider implements Provider
@@ -31,14 +35,26 @@ final class AnnotationProvider implements Provider
     private $path;
 
     /**
+     * @var FactoryGenerator
+     */
+    private $factoryGenerator;
+
+    /**
+     * @var string
+     */
+    private $factoryPath;
+
+    /**
      * @var ClassNameExtractor
      */
     private $classNameExtractor;
 
-    public function __construct(string $path)
+    public function __construct(string $path, string $factoryPath)
     {
         $this->reader = new IndexedReader(new AnnotationReader());
         $this->path = $path;
+        $this->factoryPath = $factoryPath;
+        $this->factoryGenerator = new FactoryGenerator($this->factoryPath);
         $this->classNameExtractor = new ClassNameExtractor();
 
         $this->registerLoader();
@@ -112,6 +128,25 @@ final class AnnotationProvider implements Provider
 
                     $config['routes'][] = $route;
                 }
+
+                $reflConstruct = $reflClass->getConstructor();
+                if ($reflConstruct) {
+                    /** @var Inject $constructAnnotation */
+                    $constructAnnotation = $this->reader->getMethodAnnotation($reflConstruct, Inject::class);
+                    if ($constructAnnotation) {
+                        $name = $constructAnnotation->name() ?: $className;
+                        $parameters = $constructAnnotation->parameters() ?: array_map(function (\ReflectionParameter $parameter) {
+                            $class = $parameter->getClass();
+                            if ($class === null) {
+                                throw new InvalidArgumentException('You should inject an instance of class.');
+                            }
+
+                            return $parameter->getClass()->getName();
+                        }, $reflConstruct->getParameters());
+                        $factoryClassName = $this->factoryGenerator->generate($className, $parameters);
+                        $config['dependencies']['factories'][$name] = $factoryClassName;
+                    }
+                }
             }
         }
 
@@ -120,6 +155,7 @@ final class AnnotationProvider implements Provider
 
     private function registerLoader()
     {
+        /** @var ClassLoader $loader */
         if (file_exists(__DIR__ . '/../../../../../vendor/autoload.php')) {
             $loader = require __DIR__ . '/../../../../../vendor/autoload.php';
         } else {
@@ -127,5 +163,7 @@ final class AnnotationProvider implements Provider
         }
 
         AnnotationRegistry::registerLoader([$loader, 'loadClass']);
+
+        $loader->addPsr4('Zelenin\\Zend\\Expressive\\Factories\\', $this->factoryPath);
     }
 }

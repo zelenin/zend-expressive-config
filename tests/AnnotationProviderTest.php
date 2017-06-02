@@ -16,12 +16,13 @@ final class AnnotationProviderTest extends TestCase
 {
     public function testConfig()
     {
-        $provider = new AnnotationProvider(__DIR__ . '/Resources/');
+        $provider = new AnnotationProvider(__DIR__ . '/Resources/', '/tmp');
 
         $this->assertEquals([
             'dependencies' => [
                 'factories' => [
                     'serviceId' => FactoryWithAnnotation::class,
+                    'Zelenin\Zend\Expressive\Config\Test\Resources\ServiceWithAnnotation' => 'Zelenin\Zend\Expressive\Factories\Zelenin\Zend\Expressive\Config\Test\Resources\ServiceWithAnnotationFactory',
                 ],
                 'invokables' => [
                     InvokableWithAnnotation::class => InvokableWithAnnotation::class,

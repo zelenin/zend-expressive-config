@@ -50,7 +50,7 @@ $providers =  [
     new PhpProvider(__DIR__ . '/../config/autoload/*.local.php'),
     new YamlProvider(__DIR__ . '/../config/autoload/*.global.yml'),
     new YamlProvider(__DIR__ . '/../config/autoload/*.local.yml'),
-    new AnnotationProvider(__DIR__ . '/../src'),
+    new AnnotationProvider(__DIR__ . '/../src', __DIR__ . '/../data/cache/factories'),
     new ArrayProvider(['foo' => 'bar']),
     new FooModuleConfig(),
 ];
@@ -193,6 +193,7 @@ Supported annotations:
 
 - ```@Factory(id=Service::class)```
 - ```@Invokable(id=InvokableService::class)```
+- ```@Inject```
 - ```@Middleware(path="/path")```
 - ```@Route(path="/path", methods={"GET", "POST"}, name="route-name")```
 
