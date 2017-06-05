@@ -26,10 +26,6 @@ final class FactoryGenerator
      */
     public function generate(string $serviceClassName, array $parameters): string
     {
-        if (!is_dir($this->factoryPath)) {
-            mkdir($this->factoryPath, 0777, true);
-        }
-
         $template = file_get_contents(__DIR__ . '/FactoryTemplate.phpt');
 
         $serviceClassNameParts = explode('\\', $serviceClassName);
