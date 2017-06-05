@@ -87,7 +87,8 @@ final class AnnotationProvider implements Provider
                 if (isset($classAnnotations[Invokable::class])) {
                     /** @var Factory $annotation */
                     $annotation = $classAnnotations[Invokable::class];
-                    $config['dependencies']['invokables'][$annotation->id] = $className;
+                    $id = $annotation->id ?: $className;
+                    $config['dependencies']['invokables'][$id] = $className;
                 }
 
                 if (isset($classAnnotations[Middleware::class])) {

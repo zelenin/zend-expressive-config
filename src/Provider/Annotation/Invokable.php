@@ -10,8 +10,6 @@ namespace Zelenin\Zend\Expressive\Config\Provider\Annotation;
 final class Invokable
 {
     /**
-     * @Required
-     *
      * @var string
      */
     public $id;
