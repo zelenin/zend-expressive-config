@@ -43,6 +43,13 @@ final class FactoryGenerator
         $serviceClassName = '\\' . $serviceClassName;
 
         $parameters = array_map(function (string $parameter) {
+            if (in_array($parameter, [
+                \Psr\Container\ContainerInterface::class,
+                \Interop\Container\ContainerInterface::class,
+            ], true)) {
+                return '$container';
+            }
+
             return sprintf('$container->get(\'%s\')', $parameter);
         }, $parameters);
 
