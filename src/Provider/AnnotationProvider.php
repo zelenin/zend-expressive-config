@@ -151,6 +151,8 @@ final class AnnotationProvider implements Provider
             }
         }
 
+        $config['routes'] = iterator_to_array($this->sortRoutes($config['routes']));
+
         return $config;
     }
 
@@ -166,5 +168,32 @@ final class AnnotationProvider implements Provider
         AnnotationRegistry::registerLoader([$loader, 'loadClass']);
 
         $loader->addPsr4('Zelenin\\Zend\\Expressive\\Factories\\', $this->factoryPath);
+    }
+
+    private function sortRoutes(array $routes): \Traversable
+    {
+        $r = [];
+        foreach ($routes as $route) {
+            $pos = mb_strpos($route['path'], '{');
+            if ($pos === false) {
+                $r[$route['path']][] = $route;
+            } else {
+                $prefix = mb_substr($route['path'], 0, $pos);
+                $r[$prefix][] = $route;
+            }
+        }
+
+        uksort($r, function (string $a, string $b): bool {
+            return mb_strlen($a) < mb_strlen($b);
+        });
+
+        foreach ($r as $groups) {
+            usort($groups, function (array $a, array $b): bool {
+                return mb_strlen($a['path']) < mb_strlen($b['path']);
+            });
+            foreach ($groups as $route) {
+                yield $route;
+            }
+        }
     }
 }
